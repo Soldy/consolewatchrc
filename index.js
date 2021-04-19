@@ -12,7 +12,7 @@ const consoleWatchBase =function(){
      * @return {boolean}
      */
     this.watch = function(){
-        return watch();
+        return _watch();
     }
     /*
      * @param {array}
@@ -21,54 +21,54 @@ const consoleWatchBase =function(){
      * @return {boolean}
      */
     this.add = function(key_list,func){
-        return add(key_list, func)
+        return _add(key_list, func)
     }
     /*
      * @public
      * @return {boolean}
      */
     this.clear = function(){
-        return clear();
+        return _clear();
     }
     /*
      * @public
      * @return {boolean}
      */
     this.stop = function(){
-        return stop();
+        return _stop();
     }
     /*
      * @private
      * @var {boolean}
      */
-    let watching = false;
+    let _watching = false;
     /*
      * @private
      * @var {dictonary}
      */
-    let key_functions = {};
+    let _key_functions = {};
     /*
      * @private
      * @return {boolean}
      */
-    const watch = function(){
-        if(watching)
+    const _watch = function(){
+        if(_watching)
             return false;
-        watching = true;
+        _watching = true;
         process.stdin.setRawMode(true);
         process.stdin.resume();
         process.stdin.setEncoding('utf8');
-        process.stdin.on('data', keyPress);
+        process.stdin.on('data', _keyPress);
         return true;
     }
     /*
      * @private
      * @return {boolean}
      */
-    const stop = function(){
-        if(!watching)
+    const _stop = function(){
+        if(!_watching)
             return false;
-        watching = false;
+        _watching = false;
         process.stdin.setRawMode(true);
         process.stdin.on('data', (k)=>{return k});
         return true;
@@ -79,9 +79,9 @@ const consoleWatchBase =function(){
      * @private
      * @return {boolean}
      */
-    const add = function(key_list, func){
+    const _add = function(key_list, func){
         for(let key of key_list)
-            addOne(key, func);
+            _addOne(key, func);
     }
     /*
      * @param {string}
@@ -89,10 +89,10 @@ const consoleWatchBase =function(){
      * @private
      * @return {boolean}
      */
-    const addOne = function(key, func){
-        if(typeof key_functions[key] === 'undefined')
-            key_functions[key] = [];
-        key_functions[key].push(func);
+    const _addOne = function(key, func){
+        if(typeof _key_functions[key] === 'undefined')
+            _key_functions[key] = [];
+        _key_functions[key].push(func);
     }
     /*
      * @param {string}
@@ -100,7 +100,7 @@ const consoleWatchBase =function(){
      * @private
      * @return {boolean}
      */
-    const keyPress = function(key){
+    const _keyPress = function(key){
         if(typeof key_functions[key] === 'undefined')
             return false;
         for(let func of key_functions[key])
@@ -110,8 +110,8 @@ const consoleWatchBase =function(){
     /*
      * @private
      */
-    const clear = function(){
-        key_functions = {};
+    const _clear = function(){
+        _key_functions = {};
     }
 }
 
