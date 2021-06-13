@@ -101,9 +101,9 @@ const consoleWatchBase =function(){
      * @return {boolean}
      */
     const _keyPress = function(key){
-        if(typeof key_functions[key] === 'undefined')
+        if(typeof _key_functions[key] === 'undefined')
             return false;
-        for(let func of key_functions[key])
+        for(let func of _key_functions[key])
              func(key);
         return true;
     }
